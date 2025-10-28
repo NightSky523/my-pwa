@@ -1,0 +1,151 @@
+import type { LanguageResource } from '@/api/language';
+
+
+
+// 模拟语言资源数据
+export const mockLanguageResources: Record<string, LanguageResource> = {
+  'zh-CN': {
+    common: {
+      confirm: '确认',
+      cancel: '取消',
+      save: '保存',
+      delete: '删除',
+      edit: '编辑',
+      add: '添加',
+      search: '搜索',
+      loading: '加载中...',
+      error: '出错了',
+      success: '操作成功',
+    },
+    navigation: {
+      home: '首页',
+      search: '搜索',
+      favorites: '收藏',
+      profile: '个人资料',
+    },
+    home: {
+      title: '欢迎使用PWA应用',
+      subtitle: '这是一个现代化的渐进式Web应用',
+      features: {
+        offline: '离线支持',
+        installable: '可安装',
+        responsive: '响应式设计',
+      },
+    },
+    search: {
+      placeholder: '搜索内容...',
+      noResults: '没有找到相关结果',
+      recentSearches: '最近搜索',
+    },
+    favorites: {
+      title: '我的收藏',
+      empty: '还没有收藏任何内容',
+      addToFavorites: '添加到收藏',
+      removeFromFavorites: '从收藏中移除',
+    },
+    profile: {
+      title: '个人资料',
+      settings: '设置',
+      language: '语言',
+      theme: '主题',
+      notifications: '通知',
+      about: '关于',
+    },
+  },
+  'en-US': {
+    common: {
+      confirm: 'Confirm',
+      cancel: 'Cancel',
+      save: 'Save',
+      delete: 'Delete',
+      edit: 'Edit',
+      add: 'Add',
+      search: 'Search',
+      loading: 'Loading...',
+      error: 'Something went wrong',
+      success: 'Operation successful',
+    },
+    navigation: {
+      home: 'Home',
+      search: 'Search',
+      favorites: 'Favorites',
+      profile: 'Profile',
+    },
+    home: {
+      title: 'Welcome to PWA App',
+      subtitle: 'This is a modern Progressive Web Application',
+      features: {
+        offline: 'Offline Support',
+        installable: 'Installable',
+        responsive: 'Responsive Design',
+      },
+    },
+    search: {
+      placeholder: 'Search content...',
+      noResults: 'No results found',
+      recentSearches: 'Recent Searches',
+    },
+    favorites: {
+      title: 'My Favorites',
+      empty: 'No favorites yet',
+      addToFavorites: 'Add to Favorites',
+      removeFromFavorites: 'Remove from Favorites',
+    },
+    profile: {
+      title: 'Profile',
+      settings: 'Settings',
+      language: 'Language',
+      theme: 'Theme',
+      notifications: 'Notifications',
+      about: 'About',
+    },
+  },
+  'ja-JP': {
+    common: {
+      confirm: '確認',
+      cancel: 'キャンセル',
+      save: '保存',
+      delete: '削除',
+      edit: '編集',
+      add: '追加',
+      search: '検索',
+      loading: '読み込み中...',
+      error: 'エラーが発生しました',
+      success: '操作が成功しました',
+    },
+    navigation: {
+      home: 'ホーム',
+      search: '検索',
+      favorites: 'お気に入り',
+      profile: 'プロフィール',
+    },
+    home: {
+      title: 'PWAアプリへようこそ',
+      subtitle: 'これはモダンなプログレッシブWebアプリケーションです',
+      features: {
+        offline: 'オフラインサポート',
+        installable: 'インストール可能',
+        responsive: 'レスポンシブデザイン',
+      },
+    },
+    search: {
+      placeholder: 'コンテンツを検索...',
+      noResults: '結果が見つかりません',
+      recentSearches: '最近の検索',
+    },
+    favorites: {
+      title: 'マイお気に入り',
+      empty: 'お気に入りはまだありません',
+      addToFavorites: 'お気に入りに追加',
+      removeFromFavorites: 'お気に入りから削除',
+    },
+    profile: {
+      title: 'プロフィール',
+      settings: '設定',
+      language: '言語',
+      theme: 'テーマ',
+      notifications: '通知',
+      about: 'について',
+    },
+  },
+};
