@@ -17,6 +17,13 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       error: '出错了',
       success: '操作成功',
     },
+    gallery: {
+      itemTitle: '项目 {{number}}',
+      itemNumber: '第 {{number}} 项',
+      loadingMore: '加载更多...',
+      loadMore: '加载更多',
+      noItems: '暂无内容',
+    },
     navigation: {
       home: '首页',
       search: '搜索',
@@ -64,6 +71,13 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       loading: 'Loading...',
       error: 'Something went wrong',
       success: 'Operation successful',
+    },
+    gallery: {
+      itemTitle: 'Item {{number}}',
+      itemNumber: 'Item {{number}}',
+      loadingMore: 'Loading more...',
+      loadMore: 'Load more',
+      noItems: 'No items available',
     },
     navigation: {
       home: 'Home',
