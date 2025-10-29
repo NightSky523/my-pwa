@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // 定义瀑布流项的数据类型
@@ -37,6 +37,7 @@ const WaterfallItemComponent: React.FC<{
         </div>
         <div className="p-3">
           <h3 className="font-medium text-sm line-clamp-2 text-foreground">
+            <MapPin className="inline-block w-4 h-4 text-primary mr-1" />
             {data.title}
           </h3>
           <p className="text-xs text-muted-foreground mt-1">
