@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Masonry } from "masonic";
+import { MasonryScroller, usePositioner, useContainerPosition, useResizeObserver } from "masonic";
 import WaterfallItemComponent, { type WaterfallItem } from "./WaterfallItem";
-
 interface WaterfallGalleryProps {
   initialItems?: WaterfallItem[];
   columnWidth?: number;
@@ -19,6 +18,23 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
   const { t } = useTranslation();
   const [items, setItems] = useState<WaterfallItem[]>(initialItems);
   const prevInitialItemsRef = useRef<WaterfallItem[]>(initialItems);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(600); // 初始高度
+  
+  // 监听容器高度变化
+  useEffect(() => {
+    const updateHeight = () => {
+      if (containerRef.current) {
+        setHeight(containerRef.current.clientHeight);
+      }
+    };
+    
+    updateHeight();
+    
+    // 监听窗口大小变化
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
 
   // 监听 initialItems 的变化，更新内部 items 状态
   useEffect(() => {
@@ -32,8 +48,22 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
     }
   }, [initialItems]);
 
+  // 创建定位器
+  const positioner = usePositioner({
+    width: containerRef.current?.clientWidth || 800,
+    columnWidth,
+    columnGutter,
+    rowGutter: columnGutter,
+  });
+
+  // 获取容器位置
+  const { offset } = useContainerPosition(containerRef, [items.length]);
+
+  // 创建调整大小观察器
+  const resizeObserver = useResizeObserver(positioner);
+
   // 渲染单个瀑布流项的组件
-  const renderMasonryItem = ({ index, data, width }: { index: number; data: WaterfallItem; width: number }) => (
+  const renderMasonryItem = ({ index, data }: { index: number; data: WaterfallItem }) => (
     <WaterfallItemComponent data={data} index={index} />
   );
 
@@ -49,16 +79,21 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
   }
 
   return (
-    <div className="w-full">
-      <Masonry
+    <div 
+      ref={containerRef} 
+      className="w-full h-full"
+    >
+      <div>测试</div>
+      <MasonryScroller
+        positioner={positioner}
+        offset={offset}
+        height={height}
+        containerRef={containerRef}
         items={items}
         render={renderMasonryItem}
-        columnWidth={columnWidth}
-        columnGutter={columnGutter}
-        rowGutter={columnGutter}
         itemKey={(data: WaterfallItem) => data.id}
-        className="w-full"
         overscanBy={2}
+        resizeObserver={resizeObserver}
       />
     </div>
   );
