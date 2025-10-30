@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { VirtuosoMasonry } from '@virtuoso.dev/masonry';
 import WaterfallItemComponent, { type WaterfallItem } from "./WaterfallItem";
@@ -35,7 +35,6 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
   const [items, setItems] = useState<WaterfallItem[]>(initialItems);
   const [isLoading, setIsLoading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const loadingRef = useRef(false); // 防止重复加载
   
   const windowWidth = useWindowWidth();
   
@@ -46,45 +45,43 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
     return Math.max(1, Math.floor(containerWidth / effectiveColumnWidth));
   }, [windowWidth, columnWidth, columnGutter]);
 
-  // 同步 initialItems 到 items
   useEffect(() => {
     setItems(initialItems);
   }, [initialItems]);
 
-  // 处理滚动加载更多
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container || !onLoadMore) return;
+  // 加载更多数据的回调函数
+  const loadMore = useCallback(async () => {
+    if (!onLoadMore || isLoading || !hasMore) return;
     
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = container;
-      
-      // 滚动到距离底部200px时触发加载
-      if (scrollHeight - scrollTop - clientHeight < 200 && hasMore && !loadingRef.current) {
-        loadingRef.current = true;
-        setIsLoading(true);
-        
-        onLoadMore()
-          .then(newItems => {
-            setItems(prev => [...prev, ...newItems]);
-          })
-          .catch(error => {
-            console.error("Failed to load more items:", error);
-          })
-          .finally(() => {
-            setIsLoading(false);
-            loadingRef.current = false;
-          });
+    setIsLoading(true);
+    try {
+      const newItems = await onLoadMore();
+      if (newItems && newItems.length > 0) {
+        setItems(prev => [...prev, ...newItems]);
       }
-    };
+    } catch (error) {
+      console.error("Failed to load more items:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [onLoadMore, isLoading, hasMore]);
 
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, [hasMore, onLoadMore]);
+  // 处理滚动事件，实现无限滚动
+  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    const element = e.currentTarget;
+    if (!element || !hasMore || isLoading || !onLoadMore) return;
+    
+    // 检查是否滚动到底部附近
+    const { scrollTop, scrollHeight, clientHeight } = element;
+    const isNearBottom = scrollTop + clientHeight >= scrollHeight - 200;
+    
+    if (isNearBottom) {
+      loadMore();
+    }
+  }, [hasMore, isLoading, onLoadMore, loadMore]);
 
   // 渲染单个瀑布流项
   const ItemContent: React.FC<{ data: WaterfallItem; index: number }> = ({ data, index }) => {
-    if (!data) return null;
     
     return (
       <div style={{ padding: `${columnGutter/2}px` }}>
@@ -105,19 +102,18 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
   }
 
   return (
-    <div ref={containerRef} className="w-full h-full overflow-auto">
+    <div ref={containerRef} className="w-full h-full overflow-auto" onScroll={handleScroll}>
       <VirtuosoMasonry
         columnCount={columnCount}
         data={items}
         useWindowScroll={false}
-        initialItemCount={items.length}
         ItemContent={ItemContent}
       />
       
       {/* 加载指示器 */}
       {isLoading && (
-        <div className="fixed bottom-20 left-0 right-0 flex justify-center py-2">
-          <div className="flex items-center gap-2 text-muted-foreground bg-background px-4 py-2 rounded-full shadow-md">
+        <div className="flex justify-center py-4">
+          <div className="flex items-center gap-2 text-muted-foreground">
             <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
             <span>{t("gallery.loading") || "加载中..."}</span>
           </div>
@@ -126,8 +122,8 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
       
       {/* 没有更多数据提示 */}
       {!hasMore && items.length > 0 && (
-        <div className="fixed bottom-20 left-0 right-0 flex justify-center py-2">
-          <p className="text-muted-foreground text-sm bg-background px-4 py-2 rounded-full shadow-md">
+        <div className="flex justify-center py-4">
+          <p className="text-muted-foreground text-sm">
             {t("gallery.noMore") || "没有更多内容了"}
           </p>
         </div>

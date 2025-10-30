@@ -62,10 +62,7 @@ export function HomePage() {
     setHasMore(true); // 重置为有更多数据
   };
 
-  // 处理下拉刷新
-  const handleRefresh = async () => {
-    await loadInitialData();
-  };
+
 
   // 处理加载更多
   const handleLoadMore = async (): Promise<WaterfallItem[]> => {
@@ -83,6 +80,8 @@ export function HomePage() {
     const startIndex = nextPage * itemsPerPage;
     const newItems = generateMockItems(startIndex, itemsPerPage, sortBy);
     
+    // 更新items列表，追加新加载的项目
+    setItems(prevItems => [...prevItems, ...newItems]);
     setCurrentPage(nextPage);
     return newItems;
   };
