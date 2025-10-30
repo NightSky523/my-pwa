@@ -19,16 +19,15 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
   const [items, setItems] = useState<WaterfallItem[]>(initialItems);
   const prevInitialItemsRef = useRef<WaterfallItem[]>(initialItems);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState(600); // 初始高度
+  const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
   
   // 监听容器高度变化
   useEffect(() => {
     const updateHeight = () => {
-      if (containerRef.current) {
-        setHeight(containerRef.current.clientHeight);
-      }
+      setWindowHeight(window.innerHeight);
     };
     
+    // 初始设置
     updateHeight();
     
     // 监听窗口大小变化
@@ -78,16 +77,19 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
     );
   }
 
+  // 计算瀑布流内容的实际高度
+  const masonryHeight = positioner.estimateHeight(items.length, 200) || windowHeight - 200; // 减去一些顶部导航栏的高度
+
   return (
     <div 
       ref={containerRef} 
-      className="w-full h-full"
+      className="w-full"
+      style={{ height: '100%' }}
     >
-      <div>测试</div>
       <MasonryScroller
         positioner={positioner}
         offset={offset}
-        height={height}
+        height={masonryHeight}
         containerRef={containerRef}
         items={items}
         render={renderMasonryItem}

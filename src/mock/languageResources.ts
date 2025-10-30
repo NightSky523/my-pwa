@@ -16,6 +16,9 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       loading: '加载中...',
       error: '出错了',
       success: '操作成功',
+      refreshing: '刷新中...',
+      releaseToRefresh: '释放刷新',
+      pullToRefresh: '下拉刷新',
     },
     gallery: {
       itemTitle: '项目 {{number}}',
@@ -37,6 +40,13 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
         offline: '离线支持',
         installable: '可安装',
         responsive: '响应式设计',
+      },
+      filters: {
+        select: '选择筛选条件',
+        all: '全部',
+        newest: '最新',
+        popular: '热门',
+        apply: '应用',
       },
     },
     search: {
@@ -71,6 +81,9 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       loading: 'Loading...',
       error: 'Something went wrong',
       success: 'Operation successful',
+      refreshing: 'Refreshing...',
+      releaseToRefresh: 'Release to refresh',
+      pullToRefresh: 'Pull to refresh',
     },
     gallery: {
       itemTitle: 'Item {{number}}',
@@ -92,6 +105,13 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
         offline: 'Offline Support',
         installable: 'Installable',
         responsive: 'Responsive Design',
+      },
+      filters: {
+        select: 'Select filter',
+        all: 'All',
+        newest: 'Newest',
+        popular: 'Popular',
+        apply: 'Apply',
       },
     },
     search: {
@@ -126,12 +146,22 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       loading: '読み込み中...',
       error: 'エラーが発生しました',
       success: '操作が成功しました',
+      refreshing: '更新中...',
+      releaseToRefresh: '更新を開放',
+      pullToRefresh: '引っ張って更新',
     },
     navigation: {
       home: 'ホーム',
       search: '検索',
       favorites: 'お気に入り',
       profile: 'プロフィール',
+    },
+    gallery: {
+      itemTitle: 'アイテム {{number}}',
+      itemNumber: 'アイテム {{number}}',
+      loadingMore: 'さらに読み込み中...',
+      loadMore: 'さらに読み込む',
+      noItems: 'アイテムがありません',
     },
     home: {
       title: 'PWAアプリへようこそ',
@@ -140,6 +170,13 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
         offline: 'オフラインサポート',
         installable: 'インストール可能',
         responsive: 'レスポンシブデザイン',
+      },
+      filters: {
+        select: 'フィルターを選択',
+        all: 'すべて',
+        newest: '最新',
+        popular: '人気',
+        apply: '適用',
       },
     },
     search: {

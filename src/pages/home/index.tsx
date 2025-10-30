@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import WaterfallGallery from "./components/WaterfallGallery";
+import PullToRefresh from "@/components/ui/pull-to-refresh";
 import type { WaterfallItem } from "@/pages/home/components/WaterfallItem";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,14 +48,20 @@ export function HomePage() {
 
   // 初始加载或筛选条件变化时，重新加载数据
   useEffect(() => {
-    const loadInitialData = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      const initialData = generateMockItems(0, 12, sortBy);
-      setItems(initialData);
-    };
-
     loadInitialData();
   }, [sortBy]); // 筛选条件变化时重新加载
+
+  // 加载初始数据
+  const loadInitialData = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    const initialData = generateMockItems(0, 12, sortBy);
+    setItems(initialData);
+  };
+
+  // 处理下拉刷新
+  const handleRefresh = async () => {
+    await loadInitialData();
+  };
 
   // 处理筛选条件变化
   const handleSortChange = (value: string) => {
@@ -104,13 +111,15 @@ export function HomePage() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-auto">
-        <WaterfallGallery
-          initialItems={items}
-          columnGutter={16}
-          columnWidth={172}
-          emptyMessage={t("gallery.noItems")}
-        />
+      <div className="flex-1 overflow-hidden">
+        <PullToRefresh onRefresh={handleRefresh}>
+          <WaterfallGallery
+            initialItems={items}
+            columnGutter={16}
+            columnWidth={172}
+            emptyMessage={t("gallery.noItems")}
+          />
+        </PullToRefresh>
       </div>
     </div>
   );
