@@ -15,6 +15,29 @@ const WaterfallItemComponent: React.FC<{
   index: number;
 }> = ({ data, index }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  
+  // 添加数据检查，防止undefined错误
+  if (!data || !data.imageUrl) {
+    console.warn('WaterfallItemComponent: Invalid data or imageUrl', data);
+    return (
+      <div className="group relative w-full">
+        <div className="overflow-hidden rounded-lg border border-border bg-card h-full flex flex-col">
+          <div className="flex items-center justify-center bg-muted aspect-square">
+            <p className="text-muted-foreground">数据加载失败</p>
+          </div>
+          <div className="p-3">
+            <h3 className="font-medium text-sm line-clamp-2 text-foreground">
+              <MapPin className="inline-block w-4 h-4 text-primary mr-1" />
+              未知位置
+            </h3>
+            <p className="text-xs text-muted-foreground mt-1">
+              未知位置 #{index + 1}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="group relative w-full">
