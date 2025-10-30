@@ -64,6 +64,11 @@ export function HomePage() {
 
 
 
+  // 处理下拉刷新
+  const handleRefresh = async () => {
+    await loadInitialData();
+  };
+
   // 处理加载更多
   const handleLoadMore = async (): Promise<WaterfallItem[]> => {
     // 模拟网络请求延迟
@@ -92,7 +97,7 @@ export function HomePage() {
   };
 
   return (
-    <div className="h-full flex flex-col overflow-hidden">
+    <div className="h-full flex flex-col">
       {/* 顶部导航栏 */}
       <div className="shrink-0 shadow-sm border-b border-border z-50">
         <div className="container mx-auto px-4 py-4">
@@ -134,16 +139,16 @@ export function HomePage() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-y-auto">
           <WaterfallGallery
             initialItems={items}
             columnGutter={16}
             columnWidth={172}
             emptyMessage={t("gallery.noItems")}
             onLoadMore={handleLoadMore}
+            onRefresh={handleRefresh}
             hasMore={hasMore}
           />
-        
       </div>
     </div>
   );
