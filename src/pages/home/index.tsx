@@ -62,15 +62,8 @@ export function HomePage() {
     setHasMore(true); // 重置为有更多数据
   };
 
-
-
-  // 处理下拉刷新
-  const handleRefresh = async () => {
-    await loadInitialData();
-  };
-
   // 处理加载更多
-  const handleLoadMore = async (): Promise<WaterfallItem[]> => {
+  const handleLoadMore = async (startIndex: number, stopIndex: number): Promise<WaterfallItem[]> => {
     // 模拟网络请求延迟
     await new Promise((resolve) => setTimeout(resolve, 1000));
     
@@ -82,11 +75,11 @@ export function HomePage() {
       return [];
     }
     
-    const startIndex = nextPage * itemsPerPage;
-    const newItems = generateMockItems(startIndex, itemsPerPage, sortBy);
+    // 计算要加载的项目数量
+    const count = stopIndex - startIndex;
+    const newItems = generateMockItems(startIndex, count, sortBy);
     
-    // 更新items列表，追加新加载的项目
-    setItems(prevItems => [...prevItems, ...newItems]);
+    // 更新页码，但不更新items列表（WaterfallGallery组件内部会处理）
     setCurrentPage(nextPage);
     return newItems;
   };
@@ -146,7 +139,6 @@ export function HomePage() {
             columnWidth={172}
             emptyMessage={t("gallery.noItems")}
             onLoadMore={handleLoadMore}
-            onRefresh={handleRefresh}
             hasMore={hasMore}
           />
       </div>

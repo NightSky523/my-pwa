@@ -41,13 +41,13 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
         installable: '可安装',
         responsive: '响应式设计',
       },
-      filters: {
-        select: '选择筛选条件',
-        all: '全部',
-        newest: '最新',
-        popular: '热门',
-        apply: '应用',
-      },
+    },
+    filters: {
+      select: '选择筛选条件',
+      all: '全部',
+      newest: '最新',
+      popular: '热门',
+      apply: '应用',
     },
     search: {
       placeholder: '搜索内容...',
@@ -106,13 +106,13 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
         installable: 'Installable',
         responsive: 'Responsive Design',
       },
-      filters: {
-        select: 'Select filter',
-        all: 'All',
-        newest: 'Newest',
-        popular: 'Popular',
-        apply: 'Apply',
-      },
+    },
+    filters: {
+      select: 'Select filter',
+      all: 'All',
+      newest: 'Newest',
+      popular: 'Popular',
+      apply: 'Apply',
     },
     search: {
       placeholder: 'Search content...',
@@ -171,13 +171,13 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
         installable: 'インストール可能',
         responsive: 'レスポンシブデザイン',
       },
-      filters: {
-        select: 'フィルターを選択',
-        all: 'すべて',
-        newest: '最新',
-        popular: '人気',
-        apply: '適用',
-      },
+    },
+    filters: {
+      select: 'フィルターを選択',
+      all: 'すべて',
+      newest: '最新',
+      popular: '人気',
+      apply: '適用',
     },
     search: {
       placeholder: 'コンテンツを検索...',
