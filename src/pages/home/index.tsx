@@ -64,7 +64,6 @@ export function HomePage() {
 
   return (
     <div className="h-full relative">
-      {/* 顶部导航栏，固定定位在顶部 */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-background shadow-sm border-b border-border">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -104,16 +103,12 @@ export function HomePage() {
           </div>
         </div>
       </div>
-
-      {/* 内容区域，需要留出顶部导航栏的空间 */}
-      <div className="pt-35 h-full overflow-y-auto">
-          <WaterfallGallery
-            initialItems={items}
-            columnGutter={16}
-            columnWidth={172}
-            emptyMessage={t("gallery.noItems")}
-          />
-      </div>
+      <WaterfallGallery
+        initialItems={items}
+        columnGutter={16}
+        columnWidth={172}
+        emptyMessage={t("gallery.noItems")}
+      />
     </div>
   );
 }

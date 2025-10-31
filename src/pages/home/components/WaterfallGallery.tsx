@@ -83,7 +83,6 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
   }
 
   return (
-    <div ref={containerRef} className="h-full">
       <PullToRefresh
         onRefresh={handleRefresh}
         disabled={!onRefresh}
@@ -100,17 +99,14 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
           </div>
         }
       >
-        <div className="h-full">
           <VirtuosoMasonry
+            className="h-full"
             data={items}
             columnCount={columnCount}
             ItemContent={renderItem}
             useWindowScroll={false}
-            style={{ height: '100%' }}
           />
-        </div>
       </PullToRefresh>
-    </div>
   );
 };
 
