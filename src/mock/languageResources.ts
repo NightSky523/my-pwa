@@ -26,6 +26,9 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       loadingMore: '加载更多...',
       loadMore: '加载更多',
       noItems: '暂无内容',
+      refreshing: '刷新中...',
+      releaseToRefresh: '释放刷新',
+      pullToRefresh: '下拉刷新',
     },
     navigation: {
       home: '首页',
@@ -91,6 +94,9 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       loadingMore: 'Loading more...',
       loadMore: 'Load more',
       noItems: 'No items available',
+      refreshing: 'Refreshing...',
+      releaseToRefresh: 'Release to refresh',
+      pullToRefresh: 'Pull to refresh',
     },
     navigation: {
       home: 'Home',
@@ -162,6 +168,9 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       loadingMore: 'さらに読み込み中...',
       loadMore: 'さらに読み込む',
       noItems: 'アイテムがありません',
+      refreshing: '更新中...',
+      releaseToRefresh: '更新を開放',
+      pullToRefresh: '引っ張って更新',
     },
     home: {
       title: 'PWAアプリへようこそ',

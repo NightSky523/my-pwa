@@ -35,14 +35,14 @@ export function Navigation() {
   const { t } = useTranslation();
 
   return (
-    <div className="h-full relative">
-      {/* 主要内容区域，占据全屏高度，减去底部导航栏的高度 */}
-      <main className="h-full">
+    <div className="h-full flex flex-col">
+      {/* 主要内容区域，占据剩余空间 */}
+      <main className="flex-1 overflow-hidden">
         <Outlet />
       </main>
       
-      {/* 底部导航栏，固定定位在底部，高度约80px */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border h-20">
+      {/* 底部导航栏，占位方式，高度约80px */}
+      <nav className="bg-background border-t border-border h-20 shrink-0">
         <div className="flex items-center justify-around h-full px-4">
           {navigationItems.map((item) => {
             const Icon = item.icon;

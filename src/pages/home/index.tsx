@@ -63,8 +63,8 @@ export function HomePage() {
   };
 
   return (
-    <div className="h-full relative">
-      <div className="fixed top-0 left-0 right-0 z-50 bg-background shadow-sm border-b border-border">
+    <div className="h-full flex flex-col">
+      <div className="shrink-0">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
@@ -103,7 +103,7 @@ export function HomePage() {
           </div>
         </div>
       </div>
-      <div className="py-34">
+      <div className="flex-1 overflow-hidden">
         <WaterfallGallery
         initialItems={items}
         columnGutter={16}

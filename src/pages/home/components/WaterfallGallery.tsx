@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { VirtuosoMasonry, type ItemContent } from "@virtuoso.dev/masonry";
-import PullToRefresh from "react-pull-to-refresh";
 import WaterfallItemComponent, { type WaterfallItem } from "./WaterfallItem";
 
 interface WaterfallGalleryProps {
@@ -28,21 +27,6 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
     setItems(initialItems);
   }, [initialItems]);
 
-  // 使用react-pull-to-refresh的刷新函数
-  const handleRefresh = useCallback(async () => {
-    if (!onRefresh) return;
-    setIsRefreshing(true);
-    try {
-      const refreshed = await onRefresh();
-      if (refreshed && refreshed.length >= 0) {
-        setItems(refreshed);
-      }
-    } catch (err) {
-      console.error("刷新失败", err);
-    } finally {
-      setIsRefreshing(false);
-    }
-  }, [onRefresh]);
 
   // 创建渲染瀑布流项目的组件
   const renderItem: ItemContent<WaterfallItem> = ({ data, index }) => (
@@ -83,30 +67,14 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
   }
 
   return (
-      <PullToRefresh
-        onRefresh={handleRefresh}
-        disabled={!onRefresh}
-        distanceToRefresh={60}
-        resistance={2.5}
-        icon={
-          <div className="flex justify-center py-2 text-sm text-muted-foreground">
-            {t("common.pullToRefresh")}
-          </div>
-        }
-        loading={
-          <div className="flex justify-center py-2 text-sm text-muted-foreground">
-            {t("common.refreshing")}
-          </div>
-        }
-      >
           <VirtuosoMasonry
-            className="h-full"
+            className="h-full overflow-y-auto"
             data={items}
             columnCount={columnCount}
             ItemContent={renderItem}
             useWindowScroll={false}
           />
-      </PullToRefresh>
+
   );
 };
 
