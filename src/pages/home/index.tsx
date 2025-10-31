@@ -57,6 +57,18 @@ export function HomePage() {
     setItems(initialData);
   };
 
+  // 处理下拉刷新
+  const handleRefresh = async (): Promise<WaterfallItem[]> => {
+    // 模拟网络请求延迟
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    
+    // 生成新的数据
+    const newItems = generateMockItems(0, itemsPerPage, sortBy);
+    setItems(newItems);
+    
+    return newItems;
+  };
+
   // 处理筛选条件变化
   const handleSortChange = (value: string) => {
     setSortBy(value);
@@ -109,6 +121,7 @@ export function HomePage() {
         columnGutter={16}
         columnWidth={172}
         emptyMessage={t("gallery.noItems")}
+        onRefresh={handleRefresh}
       />
       </div>
     </div>
