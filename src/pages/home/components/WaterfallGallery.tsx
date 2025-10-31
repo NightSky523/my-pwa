@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { VirtuosoMasonry, type ItemContent } from "@virtuoso.dev/masonry";
+import PullToRefresh from "react-pull-to-refresh";
 import WaterfallItemComponent, { type WaterfallItem } from "./WaterfallItem";
 
 interface WaterfallGalleryProps {
@@ -27,31 +28,8 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
     setItems(initialItems);
   }, [initialItems]);
 
-  // 下拉刷新：轻量实现（仅在容器顶部且移动端触发）
-  const touchStartY = useRef<number | null>(null);
-  const pullDistance = useRef(0);
-  const maxPull = 120;
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    const el = containerRef.current;
-    if (!el) return;
-    if (el.scrollTop <= 0) {
-      touchStartY.current = e.touches[0].clientY;
-      pullDistance.current = 0;
-    } else {
-      touchStartY.current = null;
-    }
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    if (touchStartY.current === null) return;
-    const currentY = e.touches[0].clientY;
-    pullDistance.current = Math.max(0, currentY - (touchStartY.current || 0));
-    // 可在此处实现视觉上的拉伸反馈（如 transform），但保持简单
-    if (pullDistance.current > maxPull) pullDistance.current = maxPull;
-  };
-
-  const runRefresh = useCallback(async () => {
+  // 使用react-pull-to-refresh的刷新函数
+  const handleRefresh = useCallback(async () => {
     if (!onRefresh) return;
     setIsRefreshing(true);
     try {
@@ -65,16 +43,6 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
       setIsRefreshing(false);
     }
   }, [onRefresh]);
-
-  const onTouchEnd = async () => {
-    if (touchStartY.current === null) return;
-    if (pullDistance.current > 60) {
-      // 触发刷新
-      await runRefresh();
-    }
-    touchStartY.current = null;
-    pullDistance.current = 0;
-  };
 
   // 创建渲染瀑布流项目的组件
   const renderItem: ItemContent<WaterfallItem> = ({ data, index }) => (
@@ -115,26 +83,33 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="h-full overflow-auto"
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-    >
-      {/* 刷新提示 */}
-      {isRefreshing && (
-        <div className="flex justify-center py-2 text-sm text-muted-foreground">
-          {t("common.refreshing")}
+    <div ref={containerRef} className="h-full">
+      <PullToRefresh
+        onRefresh={handleRefresh}
+        disabled={!onRefresh}
+        distanceToRefresh={60}
+        resistance={2.5}
+        icon={
+          <div className="flex justify-center py-2 text-sm text-muted-foreground">
+            {t("common.pullToRefresh")}
+          </div>
+        }
+        loading={
+          <div className="flex justify-center py-2 text-sm text-muted-foreground">
+            {t("common.refreshing")}
+          </div>
+        }
+      >
+        <div className="h-full">
+          <VirtuosoMasonry
+            data={items}
+            columnCount={columnCount}
+            ItemContent={renderItem}
+            useWindowScroll={false}
+            style={{ height: '100%' }}
+          />
         </div>
-      )}
-
-      <VirtuosoMasonry
-        data={items}
-        columnCount={columnCount}
-        ItemContent={renderItem}
-        useWindowScroll={false}
-      />
+      </PullToRefresh>
     </div>
   );
 };

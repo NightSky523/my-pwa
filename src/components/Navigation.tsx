@@ -28,22 +28,22 @@ const navigationItems = [
 
 /**
  * 底部导航组件，包含页面内容和底部导航栏
- * 作为子路由页面，使用 flex 布局确保内容区域和底部导航正确排列
+ * 使用固定定位将导航栏固定在底部，页面内容自行处理顶部和底部空间
  */
 export function Navigation() {
   const location = useLocation();
   const { t } = useTranslation();
 
   return (
-    <div className="h-full flex flex-col">
-      {/* 主要内容区域，占据剩余空间 - 确保只有一个滚动容器 */}
-      <main className="flex-1 min-h-0">
+    <div className="h-full relative">
+      {/* 主要内容区域，占据全屏高度，减去底部导航栏的高度 */}
+      <main className="h-[calc(100vh-80px)] overflow-y-auto">
         <Outlet />
       </main>
       
-      {/* 底部导航栏，固定在底部 */}
-      <nav className="z-50 bg-background border-t border-border">
-        <div className="flex items-center justify-around px-4 py-2">
+      {/* 底部导航栏，固定定位在底部，高度约80px */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border h-20">
+        <div className="flex items-center justify-around h-full px-4">
           {navigationItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
