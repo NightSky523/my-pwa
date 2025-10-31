@@ -5,7 +5,7 @@ export function SearchPage() {
   const { t } = useTranslation()
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6">
+    <div className="flex flex-col items-center justify-center h-full p-6">
       <Search size={64} className="text-primary mb-4" />
       <h1 className="text-3xl font-bold text-foreground mb-2">{t('navigation.search')}</h1>
       <p className="text-muted-foreground text-center max-w-md">
