@@ -43,10 +43,7 @@ export function HomePage() {
 
   const [items, setItems] = useState<WaterfallItem[]>([]);
   const [sortBy, setSortBy] = useState("all");
-  const [currentPage, setCurrentPage] = useState(0); // 当前页码
-  const [hasMore, setHasMore] = useState(true); // 是否还有更多数据
-  const itemsPerPage = 25; // 每页加载的数量
-  const maxPages = 5; // 模拟最多5页数据
+  const itemsPerPage = 30; // 每页显示的数量
 
   // 初始加载或筛选条件变化时，重新加载数据
   useEffect(() => {
@@ -58,30 +55,6 @@ export function HomePage() {
     await new Promise((resolve) => setTimeout(resolve, 800));
     const initialData = generateMockItems(0, itemsPerPage, sortBy);
     setItems(initialData);
-    setCurrentPage(0);
-    setHasMore(true); // 重置为有更多数据
-  };
-
-  // 处理加载更多
-  const handleLoadMore = async (startIndex: number, stopIndex: number): Promise<WaterfallItem[]> => {
-    // 模拟网络请求延迟
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    const nextPage = currentPage + 1;
-    
-    // 模拟数据加载完毕（这里设置最多5页）
-    if (nextPage >= maxPages) {
-      setHasMore(false);
-      return [];
-    }
-    
-    // 计算要加载的项目数量
-    const count = stopIndex - startIndex;
-    const newItems = generateMockItems(startIndex, count, sortBy);
-    
-    // 更新页码，但不更新items列表（WaterfallGallery组件内部会处理）
-    setCurrentPage(nextPage);
-    return newItems;
   };
 
   // 处理筛选条件变化
@@ -132,14 +105,12 @@ export function HomePage() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 min-h-0">
           <WaterfallGallery
             initialItems={items}
             columnGutter={16}
             columnWidth={172}
             emptyMessage={t("gallery.noItems")}
-            onLoadMore={handleLoadMore}
-            hasMore={hasMore}
           />
       </div>
     </div>

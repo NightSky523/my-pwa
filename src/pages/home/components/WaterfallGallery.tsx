@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Masonry, useInfiniteLoader } from "masonic";
+import { VirtuosoMasonry, type ItemContent } from "@virtuoso.dev/masonry";
 import WaterfallItemComponent, { type WaterfallItem } from "./WaterfallItem";
 
 interface WaterfallGalleryProps {
@@ -8,9 +8,7 @@ interface WaterfallGalleryProps {
   columnWidth?: number;
   columnGutter?: number;
   emptyMessage?: string;
-  onLoadMore?: (startIndex: number, stopIndex: number) => Promise<WaterfallItem[]>;
   onRefresh?: () => Promise<WaterfallItem[]>; // 新增刷新回调
-  hasMore?: boolean;
 }
 
 export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
@@ -18,43 +16,16 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
   columnWidth = 172,
   columnGutter = 16,
   emptyMessage,
-  onLoadMore,
   onRefresh,
-  hasMore = true,
 }) => {
   const { t } = useTranslation();
   const [items, setItems] = useState<WaterfallItem[]>(initialItems);
-  const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setItems(initialItems);
   }, [initialItems]);
-
-  // infinite loader：注意 totalItems 传入一个较大的值或基于 hasMore 控制逻辑
-  const maybeLoadMore = useInfiniteLoader(
-    async (startIndex: number, stopIndex: number) => {
-      if (!onLoadMore || isLoading || !hasMore) return;
-      setIsLoading(true);
-      try {
-        const newItems = await onLoadMore(startIndex, stopIndex);
-        if (newItems && newItems.length > 0) {
-          setItems((current) => [...current, ...newItems]);
-        }
-      } catch (error) {
-        console.error("加载更多数据失败:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    {
-      isItemLoaded: (index, itemsArr) => !!itemsArr[index],
-      minimumBatchSize: 16,
-      threshold: 8,
-      totalItems: hasMore ? items.length + 1000 : items.length, // 当有更多时，允许预取（masonic 要求 totalItems）
-    }
-  );
 
   // 下拉刷新：轻量实现（仅在容器顶部且移动端触发）
   const touchStartY = useRef<number | null>(null);
@@ -105,7 +76,37 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
     pullDistance.current = 0;
   };
 
-  if (!items.length && !isLoading && !isRefreshing) {
+  // 创建渲染瀑布流项目的组件
+  const renderItem: ItemContent<WaterfallItem> = ({ data, index }) => (
+    <WaterfallItemComponent data={data} index={index} />
+  );
+
+  // 计算列数
+  const calculateColumnCount = () => {
+    if (!containerRef.current) return 2;
+    const containerWidth = containerRef.current.clientWidth;
+    return Math.max(1, Math.floor(containerWidth / (columnWidth + columnGutter)));
+  };
+
+  // 监听容器大小变化
+  const [columnCount, setColumnCount] = useState(calculateColumnCount());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setColumnCount(calculateColumnCount());
+    };
+
+    const resizeObserver = new ResizeObserver(handleResize);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  if (!items.length && !isRefreshing) {
     return (
       <div className="flex items-center justify-center h-full text-muted-foreground">
         {emptyMessage || t("gallery.noItems")}
@@ -128,31 +129,12 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
         </div>
       )}
 
-      <Masonry
-        items={items}
-        columnWidth={columnWidth}
-        columnGutter={columnGutter}
-        overscanBy={5}
-        onRender={maybeLoadMore}
-        render={({ data, index }) => (
-          <WaterfallItemComponent data={data} index={index} />
-        )}
+      <VirtuosoMasonry
+        data={items}
+        columnCount={columnCount}
+        ItemContent={renderItem}
+        useWindowScroll={false}
       />
-
-      {/* 加载中 */}
-      {isLoading && (
-        <div className="flex justify-center py-4 text-muted-foreground">
-          <div className="animate-spin w-4 h-4 border-2 border-current border-t-transparent rounded-full mr-2"></div>
-          {t("gallery.loading")}
-        </div>
-      )}
-
-      {/* 到底了 */}
-      {!hasMore && (
-        <div className="flex justify-center py-4 text-sm text-muted-foreground">
-          {t("gallery.noMore") || t("gallery.loadingMore")}
-        </div>
-      )}
     </div>
   );
 };
