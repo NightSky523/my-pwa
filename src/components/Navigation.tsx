@@ -37,7 +37,7 @@ export function Navigation() {
   return (
     <div className="h-full relative">
       {/* 主要内容区域，占据全屏高度，减去底部导航栏的高度 */}
-      <main className="h-[calc(100vh-80px)] overflow-y-auto">
+      <main className="h-full">
         <Outlet />
       </main>
       

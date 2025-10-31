@@ -103,12 +103,14 @@ export function HomePage() {
           </div>
         </div>
       </div>
-      <WaterfallGallery
+      <div className="py-34">
+        <WaterfallGallery
         initialItems={items}
         columnGutter={16}
         columnWidth={172}
         emptyMessage={t("gallery.noItems")}
       />
+      </div>
     </div>
   );
 }
