@@ -6,44 +6,23 @@ import type { LanguageResource } from '@/api/language';
 export const mockLanguageResources: Record<string, LanguageResource> = {
   'zh-CN': {
     common: {
-      confirm: '确认',
-      cancel: '取消',
-      save: '保存',
-      delete: '删除',
-      edit: '编辑',
-      add: '添加',
-      search: '搜索',
       loading: '加载中...',
-      error: '出错了',
-      success: '操作成功',
-      refreshing: '刷新中...',
-      releaseToRefresh: '释放刷新',
-      pullToRefresh: '下拉刷新',
     },
     gallery: {
-      itemTitle: '项目 {{number}}',
-      itemNumber: '第 {{number}} 项',
-      loadingMore: '加载更多...',
-      loadMore: '加载更多',
       noItems: '暂无内容',
-      refreshing: '刷新中...',
-      releaseToRefresh: '释放刷新',
-      pullToRefresh: '下拉刷新',
     },
     navigation: {
       home: '首页',
-      search: '搜索',
-      favorites: '收藏',
-      profile: '个人资料',
+      match: '匹配',
+      messages: '消息',
+      my: '我的',
     },
     home: {
       title: '欢迎使用PWA应用',
       subtitle: '这是一个现代化的渐进式Web应用',
-      features: {
-        offline: '离线支持',
-        installable: '可安装',
-        responsive: '响应式设计',
-      },
+    },
+    match: {
+      placeholder: '输入搜索关键词...',
     },
     filters: {
       select: '选择筛选条件',
@@ -52,16 +31,8 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       popular: '热门',
       apply: '应用',
     },
-    search: {
-      placeholder: '搜索内容...',
-      noResults: '没有找到相关结果',
-      recentSearches: '最近搜索',
-    },
     favorites: {
       title: '我的收藏',
-      empty: '还没有收藏任何内容',
-      addToFavorites: '添加到收藏',
-      removeFromFavorites: '从收藏中移除',
     },
     profile: {
       title: '个人资料',
@@ -70,48 +41,47 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       theme: '主题',
       notifications: '通知',
       about: '关于',
+      // 个人资料页面新增翻译
+      unverified: '未认证',
+      myLikes: '我的喜欢',
+      datingHistory: '交往记录',
+      aboutUs: '关于我们',
+      settingsPage: '设置',
+      // 图片轮播区域
+      userPhoto: '用户照片',
+      // 用户信息
+      location: '中国',
+      gender: '女',
+      ipAddress: 'IP地址: 中国上海',
+      // 兴趣标签
+      interests: {
+        food: '#美食',
+        sports: '#运动',
+        gaming: '#游戏',
+        music: '#音乐',
+        nature: '#大自然',
+      },
     },
   },
   'en-US': {
     common: {
-      confirm: 'Confirm',
-      cancel: 'Cancel',
-      save: 'Save',
-      delete: 'Delete',
-      edit: 'Edit',
-      add: 'Add',
-      search: 'Search',
       loading: 'Loading...',
-      error: 'Something went wrong',
-      success: 'Operation successful',
-      refreshing: 'Refreshing...',
-      releaseToRefresh: 'Release to refresh',
-      pullToRefresh: 'Pull to refresh',
     },
     gallery: {
-      itemTitle: 'Item {{number}}',
-      itemNumber: 'Item {{number}}',
-      loadingMore: 'Loading more...',
-      loadMore: 'Load more',
       noItems: 'No items available',
-      refreshing: 'Refreshing...',
-      releaseToRefresh: 'Release to refresh',
-      pullToRefresh: 'Pull to refresh',
     },
     navigation: {
       home: 'Home',
-      search: 'Search',
-      favorites: 'Favorites',
-      profile: 'Profile',
+      match: 'Match',
+      messages: 'Messages',
+      my: 'My',
     },
     home: {
       title: 'Welcome to PWA App',
       subtitle: 'This is a modern Progressive Web Application',
-      features: {
-        offline: 'Offline Support',
-        installable: 'Installable',
-        responsive: 'Responsive Design',
-      },
+    },
+    match: {
+      placeholder: 'Enter search keywords...',
     },
     filters: {
       select: 'Select filter',
@@ -120,16 +90,8 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       popular: 'Popular',
       apply: 'Apply',
     },
-    search: {
-      placeholder: 'Search content...',
-      noResults: 'No results found',
-      recentSearches: 'Recent Searches',
-    },
     favorites: {
       title: 'My Favorites',
-      empty: 'No favorites yet',
-      addToFavorites: 'Add to Favorites',
-      removeFromFavorites: 'Remove from Favorites',
     },
     profile: {
       title: 'Profile',
@@ -138,48 +100,47 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       theme: 'Theme',
       notifications: 'Notifications',
       about: 'About',
+      // 个人资料页面新增翻译
+      unverified: 'Unverified',
+      myLikes: 'My Likes',
+      datingHistory: 'Dating History',
+      aboutUs: 'About Us',
+      settingsPage: 'Settings',
+      // 图片轮播区域
+      userPhoto: 'User Photo',
+      // 用户信息
+      location: 'China',
+      gender: 'Female',
+      ipAddress: 'IP: Shanghai, China',
+      // 兴趣标签
+      interests: {
+        food: '#Food',
+        sports: '#Sports',
+        gaming: '#Gaming',
+        music: '#Music',
+        nature: '#Nature',
+      },
     },
   },
   'ja-JP': {
     common: {
-      confirm: '確認',
-      cancel: 'キャンセル',
-      save: '保存',
-      delete: '削除',
-      edit: '編集',
-      add: '追加',
-      search: '検索',
       loading: '読み込み中...',
-      error: 'エラーが発生しました',
-      success: '操作が成功しました',
-      refreshing: '更新中...',
-      releaseToRefresh: '更新を開放',
-      pullToRefresh: '引っ張って更新',
+    },
+    gallery: {
+      noItems: 'アイテムがありません',
     },
     navigation: {
       home: 'ホーム',
-      search: '検索',
-      favorites: 'お気に入り',
-      profile: 'プロフィール',
-    },
-    gallery: {
-      itemTitle: 'アイテム {{number}}',
-      itemNumber: 'アイテム {{number}}',
-      loadingMore: 'さらに読み込み中...',
-      loadMore: 'さらに読み込む',
-      noItems: 'アイテムがありません',
-      refreshing: '更新中...',
-      releaseToRefresh: '更新を開放',
-      pullToRefresh: '引っ張って更新',
+      match: 'マッチ',
+      messages: 'メッセージ',
+      my: 'マイ',
     },
     home: {
       title: 'PWAアプリへようこそ',
       subtitle: 'これはモダンなプログレッシブWebアプリケーションです',
-      features: {
-        offline: 'オフラインサポート',
-        installable: 'インストール可能',
-        responsive: 'レスポンシブデザイン',
-      },
+    },
+    match: {
+      placeholder: '検索キーワードを入力...',
     },
     filters: {
       select: 'フィルターを選択',
@@ -188,16 +149,8 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       popular: '人気',
       apply: '適用',
     },
-    search: {
-      placeholder: 'コンテンツを検索...',
-      noResults: '結果が見つかりません',
-      recentSearches: '最近の検索',
-    },
     favorites: {
       title: 'マイお気に入り',
-      empty: 'お気に入りはまだありません',
-      addToFavorites: 'お気に入りに追加',
-      removeFromFavorites: 'お気に入りから削除',
     },
     profile: {
       title: 'プロフィール',
@@ -206,6 +159,26 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
       theme: 'テーマ',
       notifications: '通知',
       about: 'について',
+      // 个人资料页面新增翻译
+      unverified: '未認証',
+      myLikes: 'いいね',
+      datingHistory: '交際履歴',
+      aboutUs: '私たちについて',
+      settingsPage: '設定',
+      // 图片轮播区域
+      userPhoto: 'ユーザー写真',
+      // 用户信息
+      location: '中国',
+      gender: '女性',
+      ipAddress: 'IP: 中国上海',
+      // 兴趣标签
+      interests: {
+        food: '#美食',
+        sports: '#スポーツ',
+        gaming: '#ゲーム',
+        music: '#音楽',
+        nature: '#自然',
+      },
     },
   },
 };

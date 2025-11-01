@@ -1,13 +1,13 @@
 import { Heart } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
-export function FavoritesPage() {
+export function MessagesPage() {
   const { t } = useTranslation()
 
   return (
     <div className="flex flex-col items-center justify-center h-full p-6">
       <Heart size={64} className="text-primary mb-4" />
-      <h1 className="text-3xl font-bold text-foreground mb-2">{t('navigation.favorites')}</h1>
+      <h1 className="text-3xl font-bold text-foreground mb-2">{t('navigation.messages')}</h1>
       <p className="text-muted-foreground text-center max-w-md">
         您收藏的内容将显示在这里。
       </p>

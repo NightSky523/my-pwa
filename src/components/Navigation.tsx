@@ -10,19 +10,19 @@ const navigationItems = [
     path: "/",
   },
   {
-    id: "search",
+    id: "match",
     icon: Search,
-    path: "/search",
+    path: "/match",
   },
   {
-    id: "favorites",
+    id: "messages",
     icon: Heart,
-    path: "/favorites",
+    path: "/messages",
   },
   {
-    id: "profile",
+    id: "my",
     icon: User,
-    path: "/profile",
+    path: "/my",
   },
 ];
 
@@ -37,7 +37,7 @@ export function Navigation() {
   return (
     <div className="h-full flex flex-col">
       {/* 主要内容区域，占据剩余空间 */}
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-hidden p-4">
         <Outlet />
       </main>
       
