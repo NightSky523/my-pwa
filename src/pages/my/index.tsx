@@ -13,9 +13,23 @@ import { Badge } from "@/components/ui/badge";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/swiper-bundle.css";
+import { showImagePreview } from "@/components/ImagePreviewModal";
 
 export function ProfilePage() {
   const { t } = useTranslation();
+
+  // 定义图片数组
+  const profileImages = [
+    "https://picsum.photos/seed/profile1/800/400.jpg",
+    "https://picsum.photos/seed/profile2/800/400.jpg",
+    "https://picsum.photos/seed/profile3/800/400.jpg",
+    "https://picsum.photos/seed/profile4/800/400.jpg",
+  ];
+
+  // 处理图片点击事件
+  const handleImageClick = (index: number) => {
+    showImagePreview(profileImages, index);
+  };
 
   return (
     <div className="flex flex-col h-full bg-background overflow-y-auto overflow-x-hidden">
@@ -28,34 +42,16 @@ export function ProfilePage() {
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           className="h-full w-full"
         >
-          <SwiperSlide>
-            <img
-              src="https://picsum.photos/seed/profile1/800/400.jpg"
-              alt={`${t("profile.userPhoto")}1`}
-              className="w-full h-full object-cover"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              src="https://picsum.photos/seed/profile2/800/400.jpg"
-              alt={`${t("profile.userPhoto")}2`}
-              className="w-full h-full object-cover"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              src="https://picsum.photos/seed/profile3/800/400.jpg"
-              alt={`${t("profile.userPhoto")}3`}
-              className="w-full h-full object-cover"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              src="https://picsum.photos/seed/profile4/800/400.jpg"
-              alt={`${t("profile.userPhoto")}4`}
-              className="w-full h-full object-cover"
-            />
-          </SwiperSlide>
+          {profileImages.map((image, index) => (
+            <SwiperSlide key={index}>
+              <img
+                src={image}
+                alt={`${t("profile.userPhoto")}${index + 1}`}
+                className="w-full h-full object-cover cursor-pointer"
+                onClick={() => handleImageClick(index)}
+              />
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
 
@@ -73,12 +69,17 @@ export function ProfilePage() {
             </div>
             <div className="text-sm">
               <p>{t("profile.location")}</p>
-              <p>ip地址: 中国浙江</p>
+              <p className="flex flex-col md:flex-row">  
+                  <span>ip地址:</span>
+                  <span>中国浙江</span>
+                </p>
             </div>
           </div>
           <div className="text-yellow-500 flex items-center">
-            {t("profile.unverified")}
-            <ShieldAlert size={18} className="ml-1" />
+            <div className="flex items-center flex-col-reverse md:flex-row">
+              {t("profile.unverified")}
+              <ShieldAlert size={18} className="ml-1 " />
+            </div>
             <Link to="/my/settings">
               <ChevronRight size={28} className="text-black" />
             </Link>
@@ -120,7 +121,7 @@ export function ProfilePage() {
           </span>
           <ChevronRight size={16} className="text-gray-400" />
         </button>
-         <button className="flex items-center justify-between w-full p-4 border-b">
+        <button className="flex items-center justify-between w-full p-4 border-b">
           <span className="text-gray-800 flex items-center">
             <MessageSquare size={18} className="mr-1" />
             {t("profile.datingHistory")}

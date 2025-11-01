@@ -6,6 +6,7 @@ import { router } from './router.tsx'
 import { QueryProvider } from './lib/queryClient'
 import initI18n from './lib/i18nConfig'
 import LoadingScreen from './components/LoadingScreen'
+import niceModal from '@ebay/nice-modal-react'
 
 // 创建根元素
 const rootElement = document.getElementById('root')
@@ -42,9 +43,11 @@ function AppWithI18nLoading() {
 
   return (
     <StrictMode>
-      <QueryProvider>
-        <RouterProvider router={router} />
-      </QueryProvider>
+      <niceModal.Provider>
+        <QueryProvider>
+          <RouterProvider router={router} />
+        </QueryProvider>
+      </niceModal.Provider>
     </StrictMode>
   )
 }
