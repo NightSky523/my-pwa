@@ -37,6 +37,9 @@ export const ImagePreviewModal = NiceModal.create(({ images, initialSlide }: Ima
           onEscapeKeyDown={handleClose}
         >
           <DialogPrimitive.Title className="sr-only">图片预览</DialogPrimitive.Title>
+          <DialogPrimitive.Description className="sr-only">
+            使用滑动手势或按钮浏览图片，双指缩放查看细节
+          </DialogPrimitive.Description>
           
           <button
             onClick={handleClose}
