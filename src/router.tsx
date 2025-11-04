@@ -3,7 +3,7 @@ import App from "./App";
 import { Navigation } from "./components/Navigation";
 import { HeaderNavigation } from "./components/HeaderNavigation";
 import { HomePage } from "./pages/home";
-import { MatchPage } from "./pages/MatchPage";
+import { MatchPage } from "./pages/match";
 import { MessagesPage } from "./pages/MessagesPage";
 import { ProfilePage } from "./pages/my";
 import { SettingsPage } from "./pages/my/SettingsPage";
