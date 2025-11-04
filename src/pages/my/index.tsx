@@ -75,15 +75,13 @@ export function ProfilePage() {
                 </p>
             </div>
           </div>
-          <div className="text-yellow-500 flex items-center">
+          <Link to="/my/profile" className="text-yellow-500 flex items-center hover:text-yellow-600 transition-colors">
             <div className="flex items-center flex-col-reverse md:flex-row">
               {t("profile.unverified")}
               <ShieldAlert size={18} className="ml-1 " />
             </div>
-            <Link to="/my/settings">
-              <ChevronRight size={28} className="text-foreground" />
-            </Link>
-          </div>
+            <ChevronRight size={28} className="text-foreground ml-1" />
+          </Link>
         </div>
 
         <div className="mt-2 flex flex-wrap gap-1 w-1/2">

@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, ChevronRight } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import LanguageSelector from './components/LanguageSelector'
 import ThemeSelector from './components/ThemeSelector'
 import { useTheme } from '../../contexts/ThemeContext'
@@ -8,13 +7,8 @@ import { useState } from 'react'
 
 export function SettingsPage() {
   const { t } = useTranslation()
-  const navigate = useNavigate()
   const { theme } = useTheme()
   const [showThemeSelector, setShowThemeSelector] = useState(false)
-
-  const handleBack = () => {
-    navigate(-1)
-  }
 
   // 获取当前主题的显示文本
   const getThemeText = () => {
@@ -27,19 +21,8 @@ export function SettingsPage() {
   }
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center py-4 px-4 border-b border-border">
-        <button 
-          onClick={handleBack}
-          className="p-2 rounded-full hover:bg-background transition-colors"
-          aria-label={t('common.back')}
-        >
-          <ArrowLeft size={20} className="text-foreground" />
-        </button>
-        <h1 className="text-lg font-bold text-foreground ml-4">{t('profile.settings')}</h1>
-      </div>
-
-      <div className="flex-1 overflow-auto p-4"> 
+    <div className="flex flex-col h-full p-4">
+      <div className="flex-1 overflow-auto"> 
         <div className="bg-card border border-border rounded-lg p-4 mb-4">
           <label className="block text-sm font-medium text-foreground mb-2">
             {t('profile.language')}

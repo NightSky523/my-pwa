@@ -1,11 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import { Navigation } from "./components/Navigation";
+import { HeaderNavigation } from "./components/HeaderNavigation";
 import { HomePage } from "./pages/home";
 import { MatchPage } from "./pages/MatchPage";
 import { MessagesPage } from "./pages/MessagesPage";
 import { ProfilePage } from "./pages/my";
 import { SettingsPage } from "./pages/my/SettingsPage";
+import { UserProfilePage } from "./pages/my/UserProfilePage";
+import { VerificationPage } from "./pages/my/VerificationPage";
 import { AnimatePresence, motion } from "framer-motion";
 
 // 动画路由包装组件
@@ -19,9 +22,8 @@ const AnimatedRoute = ({
   <AnimatePresence mode="wait">
     <motion.div
       key={routeKey}
-      initial={{ opacity: 0, x: 100 }} // 从右侧进入
+      initial={{ opacity: 0, x: 100 }} 
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 100 }} // 向右侧退出
       transition={{
         duration: 0.3,
         ease: "easeInOut",
@@ -41,7 +43,46 @@ export type RouteConfig = {
   children?: RouteConfig[];
   isAnimated?: boolean;
   routeKey?: string;
+  showBackButton?: boolean; // 是否显示返回按钮
+  title?: string; // 页面标题
 };
+
+// 带返回按钮的布局组件
+const BackButtonLayout = ({ 
+  children, 
+  routeKey
+}: { 
+  children: React.ReactNode;
+  routeKey: string;
+}) => {
+  // 查找当前路由配置
+  const findRouteByKey = (routes: RouteConfig[], key: string): RouteConfig | undefined => {
+    for (const route of routes) {
+      if (route.routeKey === key) return route;
+      if (route.children) {
+        const found = findRouteByKey(route.children, key);
+        if (found) return found;
+      }
+    }
+    return undefined;
+  };
+
+  // 获取页面标题，直接从路由配置中获取
+  const getTitle = (): string => {
+    const currentRoute = findRouteByKey(routeConfigs, routeKey);
+    return currentRoute?.title || '';
+  };
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* 使用通用顶部导航栏组件 */}
+      <HeaderNavigation title={getTitle()} />
+      <div className="flex-1 overflow-auto">
+        {children}
+      </div>
+    </div>
+  );
+}
 
 // 路由配置对象
 const routeConfigs: RouteConfig[] = [
@@ -78,38 +119,75 @@ const routeConfigs: RouteConfig[] = [
       },
       {
         path: "my/settings",
+        title: "设置",
         element: <SettingsPage />,
         isAnimated: true,
         routeKey: "settings-page",
+        showBackButton: true,
+      },
+      {
+        path: "my/profile",
+        title: "个人资料",
+        element: <UserProfilePage />,
+        isAnimated: true,
+        routeKey: "user-profile-page",
+        showBackButton: true,
+      },
+      {
+        path: "my/verification",
+        title:"实名认证",
+        element: <VerificationPage />,
+        isAnimated: true,
+        routeKey: "verification-page",
+        showBackButton: true,
       },
     ],
   },
 ];
 
-// 处理路由配置，自动应用动画组件
-// parentIsAnimated参数用于从父级路由继承动画配置
+
 const processRoutes = (
   routes: RouteConfig[],
-  parentIsAnimated?: boolean
+  parentIsAnimated?: boolean,
+  parentShowBackButton?: boolean
 ): any[] => {
   return routes.map((route) => {
-    const shouldAnimate =
+    const shouldAnimate = 
       route.isAnimated !== undefined
         ? route.isAnimated
         : parentIsAnimated !== false;
+    
+    // 根据当前路由配置或继承父级配置决定是否显示返回按钮
+    const shouldShowBackButton = 
+      route.showBackButton !== undefined
+        ? route.showBackButton
+        : parentShowBackButton || false;
+
+    // 先应用返回按钮布局
+    let element = route.element;
+    if (shouldShowBackButton && route.routeKey) {
+      element = <BackButtonLayout routeKey={route.routeKey}>{element}</BackButtonLayout>;
+    }
+    
+    // 再应用动画效果
+    const processedElement = 
+      shouldAnimate && route.routeKey ? (
+        <AnimatedRoute routeKey={route.routeKey}>{element}</AnimatedRoute>
+      ) : (
+        element
+      );
 
     const processedRoute: any = {
       ...route,
-      element:
-        shouldAnimate && route.routeKey ? (
-          <AnimatedRoute routeKey={route.routeKey}>{route.element}</AnimatedRoute>
-        ) : (
-          route.element
-        ),
+      element: processedElement,
     };
 
     if (route.children) {
-      processedRoute.children = processRoutes(route.children, shouldAnimate);
+      processedRoute.children = processRoutes(
+        route.children, 
+        shouldAnimate, 
+        shouldShowBackButton
+      );
     }
 
     return processedRoute;
