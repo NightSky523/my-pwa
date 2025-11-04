@@ -1,14 +1,29 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, ChevronRight } from 'lucide-react'
 import LanguageSelector from './components/LanguageSelector'
+import ThemeSelector from './components/ThemeSelector'
+import { useTheme } from '../../contexts/ThemeContext'
+import { useState } from 'react'
 
 export function SettingsPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { theme } = useTheme()
+  const [showThemeSelector, setShowThemeSelector] = useState(false)
 
   const handleBack = () => {
     navigate(-1)
+  }
+
+  // 获取当前主题的显示文本
+  const getThemeText = () => {
+    switch (theme) {
+      case 'light': return '浅色'
+      case 'dark': return '深色'
+      case 'system': return '跟随系统'
+      default: return '浅色'
+    }
   }
 
   return (
@@ -38,13 +53,24 @@ export function SettingsPage() {
             {/* 主题设置按钮 - 统一按钮样式 */}
             <button 
               className="w-full text-left text-sm text-muted-foreground hover:text-foreground py-2 flex justify-between items-center"
+              onClick={() => setShowThemeSelector(!showThemeSelector)}
               aria-label={t('profile.theme')}
             >
               {t('profile.theme')}
-              <span className="text-xs text-muted-foreground">浅色</span>
+              <div className="flex items-center">
+                <span className="text-xs text-muted-foreground mr-1">{getThemeText()}</span>
+                <ChevronRight size={16} className={`transition-transform ${showThemeSelector ? 'rotate-90' : ''}`} />
+              </div>
             </button>
             
-            <div className="border-t border-border"></div>
+            {/* 主题选择器 - 可展开/收起 */}
+            {showThemeSelector && (
+              <div className="mt-2 p-2 bg-secondary/50 rounded-md">
+                <ThemeSelector />
+              </div>
+            )}
+            
+            {showThemeSelector && <div className="border-t border-border"></div>}
             
             {/* 通知设置按钮 */}
             <button 

@@ -33,7 +33,7 @@ export function ProfilePage() {
 
   return (
     <div className="flex flex-col h-full bg-background overflow-y-auto overflow-x-hidden">
-      <div className="h-55 w-full bg-gray-200">
+      <div className="h-55 w-full bg-secondary">
         <Swiper
           modules={[Pagination, Autoplay]}
           spaceBetween={0}
@@ -65,7 +65,7 @@ export function ProfilePage() {
             />
             <div>
               <h3 className="text-xl font-bold">Lisa,26</h3>
-              <p className="text-sm text-gray-600">女</p>
+              <p className="text-sm text-muted-foreground">女</p>
             </div>
             <div className="text-sm">
               <p>{t("profile.location")}</p>
@@ -81,7 +81,7 @@ export function ProfilePage() {
               <ShieldAlert size={18} className="ml-1 " />
             </div>
             <Link to="/my/settings">
-              <ChevronRight size={28} className="text-black" />
+              <ChevronRight size={28} className="text-foreground" />
             </Link>
           </div>
         </div>
@@ -95,11 +95,11 @@ export function ProfilePage() {
         </div>
 
         <div className="mt-4 flex gap-3">
-          <div className="flex items-center justify-center flex-1 bg-gray-100 rounded-md p-2">
+          <div className="flex items-center justify-center flex-1 bg-secondary rounded-md p-2">
             <Heart size={18} className="text-red-500 mr-1" />
             <span className="font-bold">1023</span>
           </div>
-          <div className="flex items-center justify-center flex-1 bg-gray-100 rounded-md p-2">
+          <div className="flex items-center justify-center flex-1 bg-secondary rounded-md p-2">
             <Eye size={18} className="text-blue-500 mr-1" />
             <span className="font-bold">1023</span>
           </div>
@@ -108,42 +108,42 @@ export function ProfilePage() {
 
       <div className="mt-4 space-y-1">
         <button className="flex items-center justify-between w-full p-4 border-b">
-          <span className="text-gray-800 flex items-center">
+          <span className="text-foreground flex items-center">
             <Heart size={18} className="mr-1" />
             {t("profile.myLikes")}
           </span>
-          <ChevronRight size={16} className="text-gray-400" />
+          <ChevronRight size={16} className="text-muted-foreground" />
         </button>
         <button className="flex items-center justify-between w-full p-4 border-b">
-          <span className="text-gray-800 flex items-center">
+          <span className="text-foreground flex items-center">
             <MessageSquare size={18} className="mr-1" />
             会员等级
           </span>
-          <ChevronRight size={16} className="text-gray-400" />
+          <ChevronRight size={16} className="text-muted-foreground" />
         </button>
         <button className="flex items-center justify-between w-full p-4 border-b">
-          <span className="text-gray-800 flex items-center">
+          <span className="text-foreground flex items-center">
             <MessageSquare size={18} className="mr-1" />
             {t("profile.datingHistory")}
           </span>
-          <ChevronRight size={16} className="text-gray-400" />
+          <ChevronRight size={16} className="text-muted-foreground" />
         </button>
         <button className="flex items-center justify-between w-full p-4 border-b">
-          <span className="text-gray-800 flex items-center">
+          <span className="text-foreground flex items-center">
             <Info size={18} className="mr-1" />
             {t("profile.aboutUs")}
           </span>
-          <ChevronRight size={16} className="text-gray-400" />
+          <ChevronRight size={16} className="text-muted-foreground" />
         </button>
         <Link
           to="/my/settings"
           className="flex items-center justify-between w-full p-4 border-b"
         >
-          <span className="text-gray-800 flex items-center">
+          <span className="text-foreground flex items-center">
             <Settings size={18} className="mr-1" />
             {t("profile.settingsPage")}
           </span>
-          <ChevronRight size={16} className="text-gray-400" />
+          <ChevronRight size={16} className="text-muted-foreground" />
         </Link>
       </div>
     </div>
