@@ -62,6 +62,10 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
         nature: '#大自然',
       },
     },
+    vip: {
+      title: '充值VIP获得更多特权',
+      privileges: 'VIP特权',
+    },
   },
   'en-US': {
     common: {
@@ -121,6 +125,10 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
         nature: '#Nature',
       },
     },
+    vip: {
+      title: 'Recharge VIP for More Privileges',
+      privileges: 'VIP Benefits',
+    },
   },
   'ja-JP': {
     common: {
@@ -179,6 +187,10 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
         music: '#音楽',
         nature: '#自然',
       },
+    },
+    vip: {
+      title: 'VIPを充電して特典を増やす',
+      privileges: 'VIP特典',
     },
   },
 };

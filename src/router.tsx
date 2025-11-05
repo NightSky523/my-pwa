@@ -9,6 +9,7 @@ import { ProfilePage } from "./pages/my";
 import { SettingsPage } from "./pages/my/SettingsPage";
 import { UserProfilePage } from "./pages/my/UserProfilePage";
 import { VerificationPage } from "./pages/my/VerificationPage";
+import { VipPage } from "./pages/my/VipPage";
 import { AnimatePresence, motion } from "framer-motion";
 
 // 动画路由包装组件
@@ -133,12 +134,20 @@ const routeConfigs: RouteConfig[] = [
         routeKey: "user-profile-page",
         showBackButton: true,
       },
-      {
+      {        
         path: "my/verification",
         title:"实名认证",
         element: <VerificationPage />,
         isAnimated: true,
         routeKey: "verification-page",
+        showBackButton: true,
+      },
+      {
+        path: "my/vip",
+        title: "会员等级",
+        element: <VipPage />,
+        isAnimated: true,
+        routeKey: "vip-page",
         showBackButton: true,
       },
     ],

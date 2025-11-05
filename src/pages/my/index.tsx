@@ -112,13 +112,13 @@ export function ProfilePage() {
           </span>
           <ChevronRight size={16} className="text-muted-foreground" />
         </button>
-        <button className="flex items-center justify-between w-full p-4 border-b">
+        <Link to="/my/vip" className="flex items-center justify-between w-full p-4 border-b hover:bg-secondary/50 transition-colors">
           <span className="text-foreground flex items-center">
             <MessageSquare size={18} className="mr-1" />
             会员等级
           </span>
           <ChevronRight size={16} className="text-muted-foreground" />
-        </button>
+        </Link>
         <button className="flex items-center justify-between w-full p-4 border-b">
           <span className="text-foreground flex items-center">
             <MessageSquare size={18} className="mr-1" />
