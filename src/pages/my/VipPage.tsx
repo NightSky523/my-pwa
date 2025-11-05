@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // VIP价格计划类型定义
@@ -122,7 +122,7 @@ export function VipPage() {
                 key={index}
                 className="flex items-start p-3 bg-card rounded-lg"
               >
-                <div className="w-2 h-2 rounded-full bg-primary mt-2 mr-3 flex-shrink-0"></div>
+                <div className="w-2 h-2 rounded-full bg-primary mt-2 mr-3 shrink-0"></div>
                 <div>
                   <p className="text-sm font-medium">{feature.title}</p>
                   <p className="text-xs text-muted-foreground mt-1">{feature.description}</p>

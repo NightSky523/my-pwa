@@ -56,8 +56,6 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
     setIsPulling(true);
   }, [isRefreshingEnabled, isRefreshing]);
 
-  // 使用useRef存储一个标志，用于决定是否应该阻止默认行为
-  const shouldPreventDefault = useRef(false);
   
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!isPulling || !isRefreshingEnabled || isRefreshing) return;
@@ -86,7 +84,7 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
       if (isPulling && window.scrollY === 0) {
         const currentY = e.touches[0].clientY;
         const diff = currentY - startY.current;
-        if (diff > 0) {
+        if (diff > 0 && e.cancelable) {
           e.preventDefault();
         }
       }
