@@ -10,6 +10,11 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
     },
     gallery: {
       noItems: '暂无内容',
+      refreshing: '正在刷新...',
+      pullToRefresh: '下拉刷新',
+      releaseToRefresh: '释放刷新',
+      loadingMore: '加载更多...',
+      noMoreItems: '没有更多内容了',
     },
     navigation: {
       home: '首页',
@@ -73,6 +78,11 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
     },
     gallery: {
       noItems: 'No items available',
+      refreshing: 'Refreshing...',
+      pullToRefresh: 'Pull to refresh',
+      releaseToRefresh: 'Release to refresh',
+      loadingMore: 'Loading more...',
+      noMoreItems: 'No more items',
     },
     navigation: {
       home: 'Home',
@@ -136,6 +146,11 @@ export const mockLanguageResources: Record<string, LanguageResource> = {
     },
     gallery: {
       noItems: 'アイテムがありません',
+      refreshing: '更新中...',
+      pullToRefresh: '引っ張って更新',
+      releaseToRefresh: '離して更新',
+      loadingMore: '読み込み中...',
+      noMoreItems: 'これ以上のアイテムはありません',
     },
     navigation: {
       home: 'ホーム',

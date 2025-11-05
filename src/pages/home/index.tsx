@@ -43,10 +43,15 @@ export function HomePage() {
 
   const [items, setItems] = useState<WaterfallItem[]>([]);
   const [sortBy, setSortBy] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const itemsPerPage = 30; // 每页显示的数量
+  const maxPages = 5; // 模拟最多只有5页数据
 
   // 初始加载或筛选条件变化时，重新加载数据
   useEffect(() => {
+    setCurrentPage(1); // 重置页码
+    setHasMore(true); // 重置是否有更多数据的状态
     loadInitialData();
   }, [sortBy]);
 
@@ -65,6 +70,28 @@ export function HomePage() {
     // 生成新的数据
     const newItems = generateMockItems(0, itemsPerPage, sortBy);
     setItems(newItems);
+    setCurrentPage(1); // 重置页码
+    setHasMore(true); // 重置是否有更多数据的状态
+    
+    return newItems;
+  };
+
+  // 处理上拉加载更多
+  const handleLoadMore = async (): Promise<WaterfallItem[]> => {
+    // 模拟网络请求延迟
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    
+    // 生成更多数据
+    const nextPage = currentPage + 1;
+    const startIndex = nextPage - 1;
+    const newItems = generateMockItems(startIndex * itemsPerPage, itemsPerPage, sortBy);
+    
+    setCurrentPage(nextPage);
+    
+    // 检查是否还有更多数据
+    if (nextPage >= maxPages) {
+      setHasMore(false);
+    }
     
     return newItems;
   };
@@ -120,10 +147,10 @@ export function HomePage() {
       <div className="flex-1 pb-16">
         <WaterfallGallery
         initialItems={items}
-        columnGutter={16}
-        columnWidth={172}
         emptyMessage={t("gallery.noItems")}
         onRefresh={handleRefresh}
+        onLoadMore={handleLoadMore}
+        hasMore={hasMore}
       />
       </div>
     </div>
