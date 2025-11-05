@@ -76,7 +76,8 @@ export function HomePage() {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="shrink-0">
+      {/* 筛选栏 - 使用sticky定位固定在顶部 */}
+      <div className="shrink-0 sticky top-0 z-30 bg-background border-b shadow-sm">
         <div className="container mx-auto py-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
@@ -115,7 +116,8 @@ export function HomePage() {
           </div>
         </div>
       </div>
-      <div className="flex-1 overflow-hidden">
+      {/* 瀑布流内容 - 底部留出空间避免被导航栏遮挡 */}
+      <div className="flex-1 pb-16">
         <WaterfallGallery
         initialItems={items}
         columnGutter={16}

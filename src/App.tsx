@@ -6,7 +6,7 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageLoadingWrapper>
-        <div className="h-screen bg-background flex flex-col overflow-hidden pt-10 ">
+        <div className="h-screen bg-background">
           <Outlet />
         </div>
       </LanguageLoadingWrapper>

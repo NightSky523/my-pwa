@@ -15,7 +15,7 @@ export function MatchPage() {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full p-4  ">
       {/* 顶部标题栏 */}
       <div className="flex justify-between items-center mb-6">
         {/* 点击List图标显示筛选模态框 */}

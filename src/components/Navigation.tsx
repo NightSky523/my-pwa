@@ -36,13 +36,13 @@ export function Navigation() {
 
   return (
     <div className="h-full flex flex-col">
-      {/* 主要内容区域，占据剩余空间 */}
-      <main className="flex-1 overflow-hidden p-4">
+      {/* 主要内容区域，占据剩余空间，底部留出导航栏高度的空间 */}
+      <main className="flex-1 pb-24">
         <Outlet />
       </main>
       
-      {/* 底部导航栏，占位方式，高度约80px */}
-      <nav className="bg-background border-t border-border h-20 shrink-0">
+      {/* 底部导航栏，使用fixed定位固定在屏幕底部 */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border h-20 z-40">
         <div className="flex items-center justify-around h-full px-4">
           {navigationItems.map((item) => {
             const Icon = item.icon;
