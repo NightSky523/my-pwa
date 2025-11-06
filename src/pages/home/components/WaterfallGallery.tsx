@@ -68,9 +68,6 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
       // 限制最大下拉距离
       const offset = Math.min(diff * 0.5, 100);
       setRefreshingOffset(offset);
-      
-      // 注意：在现代浏览器中，passive事件监听器中preventDefault会被忽略
-      // 我们不再尝试在此处调用preventDefault
     }
   }, [isPulling, isRefreshingEnabled, isRefreshing]);
   
@@ -80,7 +77,6 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
     if (!element || !isRefreshingEnabled) return;
     
     const nativeTouchMove = (e: TouchEvent) => {
-      // 只有在我们需要处理的情况下才阻止默认行为
       if (isPulling && window.scrollY === 0) {
         const currentY = e.touches[0].clientY;
         const diff = currentY - startY.current;
@@ -90,7 +86,6 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
       }
     };
     
-    // 添加non-passive事件监听器
     element.addEventListener('touchmove', nativeTouchMove, { passive: false });
     
     return () => {
@@ -113,7 +108,6 @@ export const WaterfallGallery: React.FC<WaterfallGalleryProps> = ({
       
       try {
         const newItems = await onRefresh();
-        // 只设置有效数据
         if (newItems && Array.isArray(newItems)) {
           setItems(newItems.filter(item => item && item.imageUrl));
         }
