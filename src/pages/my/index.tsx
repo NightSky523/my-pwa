@@ -10,9 +10,11 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
-import "swiper/swiper-bundle.css";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 import { showImagePreview } from "@/components/ImagePreviewModal";
 
 export function ProfilePage() {
@@ -33,26 +35,28 @@ export function ProfilePage() {
 
   return (
     <div className="flex flex-col h-full bg-background overflow-y-auto overflow-x-hidden">
-      <div className="h-55 w-full bg-secondary">
-        <Swiper
-          modules={[Pagination, Autoplay]}
-          spaceBetween={0}
-          slidesPerView={1}
-          pagination={{ clickable: true }}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
-          className="h-full w-full"
+      <div className="bg-secondary">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          autoplay={true}
+          autoplayDelay={3000}
         >
-          {profileImages.map((image, index) => (
-            <SwiperSlide key={index}>
-              <img
-                src={image}
-                alt={`${t("profile.userPhoto")}${index + 1}`}
-                className="w-full h-full object-cover cursor-pointer"
-                onClick={() => handleImageClick(index)}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+          <CarouselContent >
+            {profileImages.map((image, index) => (
+              <CarouselItem key={index}>
+                <img
+                  src={image}
+                  alt={`${t("profile.userPhoto")}${index + 1}`}
+                  className="w-full h-full object-cover cursor-pointer"
+                  onClick={() => handleImageClick(index)}
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
       </div>
 
       <div className="px-4 mt-4">

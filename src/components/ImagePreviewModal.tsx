@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import NiceModal from '@ebay/nice-modal-react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Zoom } from 'swiper/modules';
-import 'swiper/swiper-bundle.css';
+import Lightbox from 'yet-another-react-lightbox';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import Counter from 'yet-another-react-lightbox/plugins/counter';
+import 'yet-another-react-lightbox/styles.css';
+import 'yet-another-react-lightbox/plugins/counter.css';
 
 interface ImagePreviewModalProps {
   images: string[];
@@ -10,67 +12,88 @@ interface ImagePreviewModalProps {
 }
 
 export const ImagePreviewModal = NiceModal.create(({ images, initialSlide }: ImagePreviewModalProps) => {
-  const [currentIndex, setCurrentIndex] = useState(initialSlide);
+  const [index, setIndex] = useState(initialSlide);
   const modal = NiceModal.useModal();
+
+  // 处理关闭事件
+  const handleClose = useCallback(() => {
+    modal.hide();
+  }, [modal]);
+
+  // 处理索引变化
+  const handleIndexChange = useCallback(({ index: currentIndex }: { index: number }) => {
+    setIndex(currentIndex);
+  }, []);
 
   // 当模态框不可见时不渲染
   if (!modal.visible) return null;
 
+  // 将图片字符串数组转换为 lightbox 需要的格式
+  const slides = images.map((image) => ({ src: image }));
+
   return (
-    <>
-      {/* 遮罩层 */}
-      <div 
-        className="fixed inset-0 z-50 bg-black" 
-        onClick={modal.hide}
-      />
-      
-      {/* 内容区域 */}
-      <div 
-        className="fixed inset-0 z-50 w-screen h-screen"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* 关闭按钮 */}
-        <button
-          onClick={modal.hide}
-          className="absolute top-4 right-4 z-50 text-white hover:text-gray-300 transition-colors bg-black/50 rounded-full p-2"
-          aria-label="关闭"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-
-        {/* Swiper 轮播 */}
-        <div className="w-full h-full p-4">
-          <Swiper
-            modules={[Zoom]}
-            spaceBetween={0}
-            slidesPerView={1}
-            zoom={{ maxRatio: 3, minRatio: 1, toggle: true }}
-            initialSlide={initialSlide}
-            onSlideChange={(swiper) => setCurrentIndex(swiper.activeIndex)}
-            className="w-full h-full"
+    <Lightbox
+      slides={slides}
+      open={modal.visible}
+      index={index}
+      close={handleClose}
+      on={{
+        view: handleIndexChange,
+      }}
+      // 添加插件
+      plugins={[Zoom, Counter]}
+      // 缩放配置
+      zoom={{
+        maxZoomPixelRatio: 3, // 最大缩放比例
+        zoomInMultiplier: 2, // 放大倍数
+        doubleTapDelay: 300, // 双击延迟
+        doubleClickDelay: 300, // 双击延迟
+        scrollToZoom: true, // 启用滚动缩放
+      }}
+      // 全屏配置
+    
+      // 计数器配置
+      counter={{
+        style: {
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+        },
+      }}
+      // 自定义样式和配置
+      carousel={{
+        finite: false, // 允许无限循环
+        preload: 2, // 预加载前后各2张图片
+      }}
+      // 添加动画效果
+      animation={{
+        fade: 250, // 淡入淡出动画时间
+        swipe: 300, // 滑动动画时间
+      }}
+      // 自定义渲染
+      render={{
+        // 隐藏左右箭头导航按钮
+        buttonPrev: () => null,
+        buttonNext: () => null,
+        // 自定义关闭按钮
+        buttonClose: () => (
+          <button
+            key="close-button"
+            onClick={handleClose}
+            className="yarl__button yarl__button_close"
+            aria-label="关闭"
           >
-            {images.map((image, index) => (
-              <SwiperSlide key={index}>
-                <div className="swiper-zoom-container w-full h-full flex items-center justify-center">
-                  <img
-                    src={image}
-                    alt={`预览图片 ${index + 1}`}
-                    className="max-w-full max-h-full object-contain"
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-
-        {/* 图片序号指示器 */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white bg-black/70 py-2 px-4 rounded-lg pointer-events-none">
-          {currentIndex + 1} / {images.length}
-        </div>
-      </div>
-    </>
+            <svg className="yarl__icon" viewBox="0 0 24 24" width="24" height="24">
+              <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" strokeWidth="2" fill="none" />
+            </svg>
+          </button>
+        ),
+      }}
+      // 自定义工具栏按钮
+      toolbar={{
+        buttons: ["counter", "zoom",  "close"],
+      }}
+    />
   );
 });
 

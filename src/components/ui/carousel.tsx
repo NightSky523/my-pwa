@@ -2,6 +2,7 @@ import * as React from "react"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react"
+import Autoplay from "embla-carousel-autoplay"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -17,6 +18,8 @@ type CarouselProps = {
   plugins?: CarouselPlugin
   orientation?: "horizontal" | "vertical"
   setApi?: (api: CarouselApi) => void
+  autoplay?: boolean
+  autoplayDelay?: number
 }
 
 type CarouselContextProps = {
@@ -47,14 +50,24 @@ function Carousel({
   plugins,
   className,
   children,
+  autoplay = false,
+  autoplayDelay = 3000,
   ...props
 }: React.ComponentProps<"div"> & CarouselProps) {
+  // 创建插件数组，如果启用自动播放则添加 Autoplay 插件
+  const autoplayPlugin = React.useMemo(() => {
+    if (autoplay) {
+      return [Autoplay({ delay: autoplayDelay, stopOnInteraction: false })];
+    }
+    return [];
+  }, [autoplay, autoplayDelay]);
+  
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
       axis: orientation === "horizontal" ? "x" : "y",
     },
-    plugins
+    [...(plugins || []), ...autoplayPlugin]
   )
   const [canScrollPrev, setCanScrollPrev] = React.useState(false)
   const [canScrollNext, setCanScrollNext] = React.useState(false)
