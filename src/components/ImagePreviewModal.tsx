@@ -91,7 +91,7 @@ export const ImagePreviewModal = NiceModal.create(({ images, initialSlide }: Ima
       }}
       // 自定义工具栏按钮
       toolbar={{
-        buttons: ["counter", "zoom",  "close"],
+        buttons: ["zoom",  "close"],
       }}
     />
   );
