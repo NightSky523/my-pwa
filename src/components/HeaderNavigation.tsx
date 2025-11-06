@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
+import { useSafeNavigate } from '../hooks/useSafeNavigate'
 
 interface HeaderNavigationProps {
   title: string
@@ -14,12 +14,12 @@ export function HeaderNavigation({
   showBackButton = true,
   rightContent
 }: HeaderNavigationProps) {
-  const navigate = useNavigate()
   const { resolvedTheme } = useTheme()
+  const { back } = useSafeNavigate()
 
-  // 返回上一页
+  // 返回上一页，带保底逻辑
   const handleBack = () => {
-    navigate(-1)
+    back() // 使用带保底的返回方法
   }
 
   return (

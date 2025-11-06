@@ -1,5 +1,5 @@
-import { useLanguage } from '../../../hooks/useLanguage';
-import type { Language } from '../../../lib/i18nConfig';
+import { useLanguage } from '../hooks/useLanguage';
+import type { Language } from '../lib/i18nConfig';
 import {
   Select,
   SelectContent,

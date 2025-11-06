@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import { ChevronRight } from 'lucide-react'
-import LanguageSelector from './components/LanguageSelector'
-import ThemeSelector from './components/ThemeSelector'
+import LanguageSelector from '../../components/LanguageSelector'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useState } from 'react'
+import ThemeSelector from './components/ThemeSelector'
 
 export function SettingsPage() {
   const { t } = useTranslation()

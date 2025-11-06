@@ -10,6 +10,7 @@ import { SettingsPage } from "./pages/my/SettingsPage";
 import { UserProfilePage } from "./pages/my/UserProfilePage";
 import { VerificationPage } from "./pages/my/VerificationPage";
 import { VipPage } from "./pages/my/VipPage";
+import { LoginPage } from "./pages/LoginPage";
 import { AnimatePresence, motion } from "framer-motion";
 
 // 动画路由包装组件
@@ -23,7 +24,7 @@ const AnimatedRoute = ({
   <AnimatePresence mode="wait">
     <motion.div
       key={routeKey}
-      initial={{ opacity: 0, x: 100 }} 
+      initial={{ opacity: 0, x: 100 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{
         duration: 0.3,
@@ -49,15 +50,18 @@ export type RouteConfig = {
 };
 
 // 带返回按钮的布局组件
-const BackButtonLayout = ({ 
-  children, 
-  routeKey
-}: { 
+const BackButtonLayout = ({
+  children,
+  routeKey,
+}: {
   children: React.ReactNode;
   routeKey: string;
 }) => {
   // 查找当前路由配置
-  const findRouteByKey = (routes: RouteConfig[], key: string): RouteConfig | undefined => {
+  const findRouteByKey = (
+    routes: RouteConfig[],
+    key: string
+  ): RouteConfig | undefined => {
     for (const route of routes) {
       if (route.routeKey === key) return route;
       if (route.children) {
@@ -71,19 +75,17 @@ const BackButtonLayout = ({
   // 获取页面标题，直接从路由配置中获取
   const getTitle = (): string => {
     const currentRoute = findRouteByKey(routeConfigs, routeKey);
-    return currentRoute?.title || '';
+    return currentRoute?.title || "";
   };
 
   return (
     <div className="flex flex-col h-full">
       {/* 使用通用顶部导航栏组件 */}
       <HeaderNavigation title={getTitle()} />
-      <div className="flex-1 overflow-auto">
-        {children}
-      </div>
+      <div className="flex-1 overflow-auto">{children}</div>
     </div>
   );
-}
+};
 
 // 路由配置对象
 const routeConfigs: RouteConfig[] = [
@@ -134,9 +136,9 @@ const routeConfigs: RouteConfig[] = [
         routeKey: "user-profile-page",
         showBackButton: true,
       },
-      {        
+      {
         path: "my/verification",
-        title:"实名认证",
+        title: "实名认证",
         element: <VerificationPage />,
         isAnimated: true,
         routeKey: "verification-page",
@@ -150,10 +152,15 @@ const routeConfigs: RouteConfig[] = [
         routeKey: "vip-page",
         showBackButton: true,
       },
+      {
+        path: "login",
+        element: <LoginPage />,
+        isAnimated: true,
+        routeKey: "login-page",
+      },
     ],
   },
 ];
-
 
 const processRoutes = (
   routes: RouteConfig[],
@@ -161,13 +168,13 @@ const processRoutes = (
   parentShowBackButton?: boolean
 ): any[] => {
   return routes.map((route) => {
-    const shouldAnimate = 
+    const shouldAnimate =
       route.isAnimated !== undefined
         ? route.isAnimated
         : parentIsAnimated !== false;
-    
+
     // 根据当前路由配置或继承父级配置决定是否显示返回按钮
-    const shouldShowBackButton = 
+    const shouldShowBackButton =
       route.showBackButton !== undefined
         ? route.showBackButton
         : parentShowBackButton || false;
@@ -175,11 +182,13 @@ const processRoutes = (
     // 先应用返回按钮布局
     let element = route.element;
     if (shouldShowBackButton && route.routeKey) {
-      element = <BackButtonLayout routeKey={route.routeKey}>{element}</BackButtonLayout>;
+      element = (
+        <BackButtonLayout routeKey={route.routeKey}>{element}</BackButtonLayout>
+      );
     }
-    
+
     // 再应用动画效果
-    const processedElement = 
+    const processedElement =
       shouldAnimate && route.routeKey ? (
         <AnimatedRoute routeKey={route.routeKey}>{element}</AnimatedRoute>
       ) : (
@@ -193,8 +202,8 @@ const processRoutes = (
 
     if (route.children) {
       processedRoute.children = processRoutes(
-        route.children, 
-        shouldAnimate, 
+        route.children,
+        shouldAnimate,
         shouldShowBackButton
       );
     }

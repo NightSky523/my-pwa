@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useTheme } from '../../contexts/ThemeContext'
+import { useSafeNavigate } from '../../hooks/useSafeNavigate'
 
 // 实名认证页面组件
 export function VerificationPage() {
   const { t } = useTranslation()
-  const navigate = useNavigate()
   const { theme } = useTheme()
+  const { back } = useSafeNavigate()
   
   // 表单状态
   const [name, setName] = useState('')
@@ -42,7 +42,7 @@ export function VerificationPage() {
     
     // 模拟提交成功
     alert('认证信息提交成功，请等待审核')
-    navigate(-1)
+    back() // 使用带保底的返回方法
   }
 
   return (
