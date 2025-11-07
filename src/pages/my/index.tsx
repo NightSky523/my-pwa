@@ -7,6 +7,7 @@ import {
   Info,
   Settings,
   ShieldAlert,
+  Edit,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
@@ -33,9 +34,24 @@ export function ProfilePage() {
     showImagePreview(profileImages, index);
   };
 
+  // 处理编辑相册按钮点击事件
+  const handleEditAlbum = () => {
+    // 这里可以添加编辑相册的逻辑，比如跳转到编辑页面或打开编辑模态框
+    console.log("编辑相册");
+  };
+
   return (
     <div className="flex flex-col h-full bg-background overflow-y-auto overflow-x-hidden">
-      <div className="bg-secondary">
+      <div className="bg-secondary relative">
+        {/* 编辑相册按钮 */}
+        <button
+          onClick={handleEditAlbum}
+          className="absolute top-4 right-4 z-10 bg-white/80 backdrop-blur-sm rounded-full p-2 hover:bg-white/90 transition-colors"
+          title="编辑相册"
+        >
+          <Edit size={18} className="text-foreground" />
+        </button>
+        
         <Carousel
           opts={{
             align: "start",

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import {  Send } from 'lucide-react'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { Send, User, Headphones } from 'lucide-react'
 
 interface Message {
   id: string
@@ -78,12 +79,23 @@ export function ChatPage() {
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex ${
+            className={`flex gap-3 ${
               message.sender === 'user' ? 'justify-end' : 'justify-start'
             }`}
           >
+            {/* 客服头像 */}
+            {message.sender === 'service' && (
+              <Avatar className="shrink-0">
+                <AvatarImage src="/service-avatar.jpg" alt="客服" />
+                <AvatarFallback className="bg-blue-100 text-blue-600">
+                  <Headphones className="h-4 w-4" />
+                </AvatarFallback>
+              </Avatar>
+            )}
+            
+            {/* 消息内容 */}
             <div
-              className={`max-w-[80%] rounded-lg p-3 ${
+              className={`max-w-[70%] rounded-lg p-3 ${
                 message.sender === 'user'
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-muted'
@@ -100,6 +112,16 @@ export function ChatPage() {
                 {formatTime(message.timestamp)}
               </p>
             </div>
+            
+            {/* 用户头像 */}
+            {message.sender === 'user' && (
+              <Avatar className="shrink-0">
+                <AvatarImage src="/user-avatar.jpg" alt="用户" />
+                <AvatarFallback className="bg-green-100 text-green-600">
+                  <User className="h-4 w-4" />
+                </AvatarFallback>
+              </Avatar>
+            )}
           </div>
         ))}
         <div ref={messagesEndRef} />
