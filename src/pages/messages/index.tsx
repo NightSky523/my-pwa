@@ -1,10 +1,12 @@
 import { Button } from '@/components/ui/button'
+import { useSafeNavigate } from '@/hooks/useSafeNavigate'
 
 export function MessagesPage() {
+  const { to } = useSafeNavigate()
+
   // 处理进入聊天按钮点击事件
   const handleStartChat = () => {
-    // 这里可以添加进入聊天的逻辑
-    console.log('进入聊天')
+    to('/messages/chat')
   }
 
   return (

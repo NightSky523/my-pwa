@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { useSafeNavigate } from '../hooks/useSafeNavigate';
 import { Button } from '../components/ui/button';
 import { Checkbox } from '../components/ui/checkbox';
+import { Label } from '../components/ui/label';
 import { LanguageSelector } from '../components/LanguageSelector';
 
 export const LoginPage: React.FC = () => {
@@ -95,18 +96,18 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* 用户协议同意 - 更紧凑布局 */}
-        <div className="w-full mb-8">
-          <label className="flex items-start cursor-pointer w-full justify-center">
-            <Checkbox
-              checked={isAgreed}
-              onCheckedChange={(checked) => setIsAgreed(checked as boolean)}
-              className="mt-1 mr-2"
-            />
-            <span className="text-xs text-gray-500">
-              我已阅读并同意xxx的用户协议和隐私政策
-            </span>
-          </label>
-        </div>
+      <div className="w-full mb-8">
+        <Label className="flex items-center cursor-pointer w-full justify-center">
+          <Checkbox
+            checked={isAgreed}
+            onCheckedChange={(checked) => setIsAgreed(checked as boolean)}
+            className="mr-2"
+          />
+          <span className="text-xs text-gray-500">
+            我已阅读并同意xxx的用户协议和隐私政策
+          </span>
+        </Label>
+      </div>
       </div>
       
       {/* 添加底部信息区域，填充空白 */}

@@ -4,7 +4,8 @@ import { Navigation } from "./components/Navigation";
 import { HeaderNavigation } from "./components/HeaderNavigation";
 import { HomePage } from "./pages/home";
 import { MatchPage } from "./pages/match";
-import { MessagesPage } from "./pages/MessagesPage";
+import { MessagesPage } from "./pages/messages";
+import { ChatPage } from "./pages/messages/ChatPage";
 import { ProfilePage } from "./pages/my";
 import { SettingsPage } from "./pages/my/SettingsPage";
 import { UserProfilePage } from "./pages/my/UserProfilePage";
@@ -17,25 +18,48 @@ import { AnimatePresence, motion } from "framer-motion";
 const AnimatedRoute = ({
   children,
   routeKey,
+  animationType = "slide", // 默认为滑动动画
 }: {
   children: React.ReactNode;
   routeKey: string;
-}) => (
-  <AnimatePresence mode="wait">
-    <motion.div
-      key={routeKey}
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{
-        duration: 0.3,
-        ease: "easeInOut",
-      }}
-      className="h-full overflow-auto"
-    >
-      {children}
-    </motion.div>
-  </AnimatePresence>
-);
+  animationType?: "slide" | "scale"; // 动画类型：滑动或放大
+}) => {
+  // 根据动画类型设置不同的动画参数
+  const getAnimationProps = () => {
+    switch (animationType) {
+      case "scale":
+        return {
+          initial: { opacity: 0, scale: 0.9 },
+          animate: { opacity: 1, scale: 1 },
+        };
+      case "slide":
+      default:
+        return {
+          initial: { opacity: 0, x: 100 },
+          animate: { opacity: 1, x: 0 },
+        };
+    }
+  };
+
+  const animationProps = getAnimationProps();
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={routeKey}
+        initial={animationProps.initial}
+        animate={animationProps.animate}
+        transition={{
+          duration: 0.3,
+          ease: "easeInOut",
+        }}
+        className="h-full overflow-auto"
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
+};
 
 // 路由配置类型定义
 export type RouteConfig = {
@@ -47,6 +71,7 @@ export type RouteConfig = {
   routeKey?: string;
   showBackButton?: boolean; // 是否显示返回按钮
   title?: string; // 页面标题
+  animationType?: "slide" | "scale"; // 动画类型：滑动或放大
 };
 
 // 带返回按钮的布局组件
@@ -121,10 +146,17 @@ const routeConfigs: RouteConfig[] = [
         ],
       },
       {
+        path: "messages/chat",
+        title: "官方客服",
+        element: <ChatPage />,
+        routeKey: "chat-page",
+        showBackButton: true,
+        animationType: "scale", 
+      },
+      {
         path: "my/settings",
         title: "设置",
         element: <SettingsPage />,
-        isAnimated: true,
         routeKey: "settings-page",
         showBackButton: true,
       },
@@ -132,7 +164,6 @@ const routeConfigs: RouteConfig[] = [
         path: "my/profile",
         title: "个人资料",
         element: <UserProfilePage />,
-        isAnimated: true,
         routeKey: "user-profile-page",
         showBackButton: true,
       },
@@ -140,7 +171,6 @@ const routeConfigs: RouteConfig[] = [
         path: "my/verification",
         title: "实名认证",
         element: <VerificationPage />,
-        isAnimated: true,
         routeKey: "verification-page",
         showBackButton: true,
       },
@@ -148,14 +178,12 @@ const routeConfigs: RouteConfig[] = [
         path: "my/vip",
         title: "会员等级",
         element: <VipPage />,
-        isAnimated: true,
         routeKey: "vip-page",
         showBackButton: true,
       },
       {
         path: "login",
         element: <LoginPage />,
-        isAnimated: true,
         routeKey: "login-page",
       },
     ],
@@ -190,7 +218,9 @@ const processRoutes = (
     // 再应用动画效果
     const processedElement =
       shouldAnimate && route.routeKey ? (
-        <AnimatedRoute routeKey={route.routeKey}>{element}</AnimatedRoute>
+        <AnimatedRoute routeKey={route.routeKey} animationType={route.animationType}>
+          {element}
+        </AnimatedRoute>
       ) : (
         element
       );
